@@ -1,0 +1,42 @@
+/* HTML5 Reset CSS
+   https://github.com/integralfox/html5reset/
+
+   Element list based on W3C HTML5 Recommendation
+*/
+
+/* Set a baseline for of all elements */
+html, /* Root */
+body, section, nav, article, aside, h1, h2, h3, h4, h5, h6, hgroup, header, footer, address, noscript, /* Sectioning */
+p, hr, br, pre, blockquote, ol, ul, li, dl, dt, dd, figure, figcaption, div, /* Grouping */
+a, em, strong, small, s, cite, q, dfn, abbr, time, code, var, samp, kbd, sub, sup, i, b, u, mark, ruby, rt, rp, bdi, bdo, span, /* Text Markup */
+ins, del, /* Edits */
+img, iframe, embed, object, param, video, audio, source, track, canvas, map, area, /* Embedded Content */
+table, caption, colgroup, col, tbody, thead, tfoot, tr, td, th, /* Tables */
+form, fieldset, legend, label, input, button, select, datalist, optgroup, option, textarea, keygen, output, progress, meter, /* Forms */
+details, summary, command, menu { /* Interactive Elements */
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 1em;
+	vertical-align: baseline;
+}
+
+/* Make block elements contain floated children and child margins.
+   Use border-box as the default box-sizing. */
+body, section, nav, article, aside, h1, h2, h3, h4, h5, h6, hgroup, header, footer, address, noscript, /* Sectioning */
+p, hr, br, pre, blockquote, ol, ul, li, dl, dt, dd, figure, figcaption, div { /* Grouping */
+	box-sizing: border-box;
+	overflow: auto;
+}
+
+/* Don't display a default style for lists */
+ol, ul {
+	list-style: none;
+}
+
+/* Don't display default table borders */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
