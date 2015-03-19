@@ -1,4 +1,4 @@
-<?
+<?php
 /* Site-wide utility functions */
 
 require_once('secureConstants.php');
