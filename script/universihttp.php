@@ -16,6 +16,10 @@ if (empty($_SESSION['userId'])) {
 session_commit();
 
 
+/* Set Up Template Var */
+require('template.php');
+
+
 /* Query Resolution
  *
  * Split the query string on the slash character to create an array of
