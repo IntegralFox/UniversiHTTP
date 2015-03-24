@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="reset.css">
+		<style>
+		.fright { float: right; }
+		input, select { margin-bottom: 0.5em; }
+		label { display: inline-block; width: 7em; }
+		</style>
+	</head>
+	<body>
+		<header>
+			<h4 class="fright">Chris Simmons <a href="#">logout</a></h4>
+			<h1>UniversiHTTP</h1>
+		</header>
+		<section>
+			<header>
+				<h2>Create New Course</h2>
+			</header>
+			<form method="GET" action="#">
+				<label>Course Number:</label> <input type="text"><br>
+				<label>Course Name:</label> <input type="text"><br>
+				<label>Term:</label> <select><option>Fall</option></select><br>
+				<label>Year:</label> <select><option>2015</option></select><br>
+				<table summary="students">
+					<thead>
+						<th colspan="2">Available Students</th>
+						<th colspan="2">Students in Course</th>
+					</thead>
+					<tbody>
+						<td>
+							<select size="10" multiple>
+								<option>John Smith</option>
+								<option>Jane Doe</option>
+								<option>Linda Zwordling</option>
+								<option>Lem Hewitt</option>
+							</select>
+						</td>
+						<td><input type="button" value=">"></td>
+						<td><input type="button" value="<"></td>
+						<td>
+							<select size="10" multiple>
+								<option>Ted Crisp</option>
+								<option>Veronica Palmer</option>
+								<option>Phil Myman</option>
+							</select>
+						</td>
+				</table>
+				<input type="button" value="Create">
+			</form>
+		</section>
+	</body>
+</html>
