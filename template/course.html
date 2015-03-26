@@ -9,13 +9,13 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">-->
 
-    <title>Index page Template</title>
-    
-    <!-- Bootstrap core CSS -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <title>Course page Template</title>
     
     <!-- Custom styles for this template -->
 	<link href="../static/css/base.css" rel="stylesheet">
+    
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
 	
     <!-- Bootstrap theme -->
     <link href="../static/css/bootstrap-theme.css" rel="stylesheet">
@@ -33,13 +33,14 @@
     <![endif]-->
   </head>
 
-  <body role="document">
+  <body>
 
 	    <!-- Fixed navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">            <span class="sr-only">Toggle navigation</span>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -84,12 +85,12 @@
 				<li><a href="#">Sandbox</a></li>
 			</ul>
 		</section>
-		<section>
-			<table summary="Assignments">
+		<section class="ltable">
+			<table class="table table-condensed" summary="Assignments">
 				<thead>
 					<tr>
-						<th style="padding-right: 10em;">Assignment</th>
-						<th style="padding-right: 5em;">Due Date</th>
+						<th>Assignment</th>
+						<th>Due Date</th>
 						<th>Grade</th>
 					</tr>
 				</thead>
@@ -104,18 +105,9 @@
 						<td>2015/01/25 23:59</td>
 						<td>0/50</td>
 					</tr>
-					<tr>
-						<td><a href="#">Div Assignment</a></td>
-						<td>2015/01/30 23:59</td>
-						<td>-/50</td>
-					</tr>
-					<tr>
-						<td><a href="#">Learning Activity 2</a></td>
-						<td>2015/02/01 23:59</td>
-						<td>70/75</td>
-					</tr>
 		</section>
     </div> <!-- /container -->
+    <hr>
 
 
     <!-- Bootstrap core JavaScript
