@@ -1,5 +1,15 @@
 /* This is the Custom styles for pages other than the Log in and Home page*/
+
 body{
-	padding-top: 80px;
+	padding-top: 60px;
+	padding-right: 70px;
 	padding-left: 70px;
 }
+
+/* This moves the table to the left and makes it unresponsive
+.ltable{
+	float: center;
+	width: 750px;
+	height: 500px;
+}*/
+
