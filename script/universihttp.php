@@ -10,8 +10,9 @@ require_once('functions.php');
  * by committing as soon as possible so that concurrent requests complete
  * quickly. */
 session_start();
+
 if (empty($_SESSION['userId'])) {
-	//require('login.php');
+	require('login.php');
 }
 session_commit();
 
@@ -25,20 +26,20 @@ require('template.php');
  * Split the query string on the slash character to create an array of
  * arguments. Then conditionally include script files to handle requests
  * based on those arguments. */
-$query = trim($_SERVER['QUERY_STRING'], '/');
-$argv  = explode('/', $query); // $arg will always contain at least one element
+$request = trim($_SERVER['REQUEST_URI'], '/');
+$argv  = explode('/', $request); // $arg will always contain at least one element
 $argc  = count($argv);
 
 if ($argv[0] == 'assignment') {
 	//require('assignment.php');
 } else if ($argv[0] == 'course') {
-	//require('course.php');
+	require('course.php');
 } else if ($argv[0] == 'report') {
 	//require('report.php');
 } else if ($argv[0] == 'serve') {
 	//require('serve.php');
 } else {
-	//require('course.php');
+	require('course.php');
 }
 
 ?>
