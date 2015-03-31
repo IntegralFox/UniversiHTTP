@@ -10,7 +10,6 @@ require_once('functions.php');
  * by committing as soon as possible so that concurrent requests complete
  * quickly. */
 session_start();
-
 if (empty($_SESSION['userId'])) {
 	require('login.php');
 }

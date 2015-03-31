@@ -46,33 +46,28 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="#">UniversiTTP</a>
-        </div>
+        </div> <!-- navbar-header end -->
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#classes">Classes</a></li>
+            <li><a href="#assignments">Assignments</a></li>
+            <li><a href="#grades">Grades</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <a href="#tools" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Instructor tools <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
+                <li><a href="assignmentcreation.html">Create Assignment</a></li>
+                <li><a href="coursecreation.html">Create Course</a></li>
+                <li><a href="studentcreation.html">Create Student</a></li>
               </ul>
-            </li>
           </ul>
         
             <p class="navbar-text navbar-right">Username
-            	&nbsp;<a href="#logout">logout</a>
+            	&nbsp;<a href="#logout" id="logout">logout</a>
             </p>
-        </div><!--/.nav-collapse -->
-      </div>
+        </div><!-- .nav-collapse end-->
+      </div><!-- container end -->
     </nav>
-	
+	<div class="center-section">
 	<section>
 			<header>
 				<h3 class="page-header">IT 2233-01 Web Application Development I</h3>
@@ -85,7 +80,7 @@
 				<li><a href="#">Sandbox</a></li>
 			</ul>
 		</section>
-		<section class="ltable">
+		<section>
 			<table class="table table-condensed" summary="Assignments">
 				<thead>
 					<tr>
@@ -105,8 +100,15 @@
 						<td>2015/01/25 23:59</td>
 						<td>0/50</td>
 					</tr>
+			</table>
 		</section>
-    </div> <!-- /container -->
+    </div> <!-- center-section -->
+
+    <footer class="footer">
+    		<div class="container">
+    			<p class="text-muted">UniversiHTTP</p>
+    		</div>
+    	</footer>
     <hr>
 
 
