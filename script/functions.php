@@ -1,13 +1,13 @@
 <?php
 /* Site-wide utility functions */
 
-require_once('secureConstants.php');
+require_once('../constant/secureConstants.php');
 
 function mysqliConn() {
 	$db = new mysqli(
 		$GLOBALS['DB']['SERVER'],
 		$GLOBALS['DB']['USERNAME'],
-		$GOLBALS['DB']['PASSWORD'],
+		$GLOBALS['DB']['PASSWORD'],
 		$GLOBALS['DB']['DATABASE']
 	);
 
@@ -23,7 +23,7 @@ function pdoConn() {
 	$dsn = "mysql:dbname={$GLOBALS['DB']['DATABASE']};host={$GLOBALS['DB']['SERVER']}";
 
 	try {
-		$db = new PDO($dsn, $GLOBALS['DB']['USERNAME'],	$GOLBALS['DB']['PASSWORD'], [PDO::ATTR_PERSISTENT => true]);
+		$db = new PDO($dsn, $GLOBALS['DB']['USERNAME'],	$GLOBALS['DB']['PASSWORD'], [PDO::ATTR_PERSISTENT => true]);
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	} catch (PDOException $e) {
 		header('HTTP/1.1 500 Internal Server Error');
