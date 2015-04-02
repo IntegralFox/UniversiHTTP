@@ -10,6 +10,7 @@ require_once('functions.php');
  * by committing as soon as possible so that concurrent requests complete
  * quickly. */
 session_start();
+
 if (empty($_SESSION['userId'])) {
 	require('login.php');
 }
@@ -33,6 +34,8 @@ if ($argv[0] == 'assignment') {
 	//require('assignment.php');
 } else if ($argv[0] == 'course') {
 	require('course.php');
+} else if ($argv[0] == 'logout') {
+	require('logout.php');
 } else if ($argv[0] == 'report') {
 	//require('report.php');
 } else if ($argv[0] == 'serve') {
