@@ -103,7 +103,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-4">
-							<input type="submit" id="submit" class="btn btn-default" value="<?php echo isset($template['editing']) ? 'Save Changes' : 'Create Course'; ?>">
+							<input type="submit" id="submit" class="btn btn-default pull-right" value="<?php echo isset($template['editing']) ? 'Save Changes' : 'Create Course'; ?>">
 						</div>
 					</div>
 				</form>
