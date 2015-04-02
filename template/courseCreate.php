@@ -8,35 +8,63 @@
 		<style>
 			.center-section {
 			max-width: 800px;
-		}
+			}
+			#enroll {
+				margin-top: 3em;
+			}
 		</style>
+		<script>
+			$(function() {
+				$('#enroll').click(function() {
+					$('#notEnrolled :selected').appendTo('#enrolled').prop('selected', false);
+					sortSelect('#enrolled');
+				});
+				$('#unenroll').click(function() {
+					$('#enrolled :selected').appendTo('#notEnrolled').prop('selected', false);
+					sortSelect('#notEnrolled');
+				});
+				$('form').submit(function(e) {
+					if ($('#enrolled option').length == 0) {
+						e.preventDefault();
+						alert('You must add at least one student to the roster.');
+					} else {
+							$('#enrolled option').prop('selected', true);
+					}
+				});
+			});
+			function sortSelect(selector) {
+				$(selector + ' option').sort(function(a, b) {
+					return $(a).text() > $(b).text();
+				}).appendTo(selector);
+			}
+		</script>
 	</head>
 	<body>
 		<?php require('navbar.php'); ?>
 		<div class="center-section"> <!-- This is where page content will be added -->
 			<section>
 				<header>
-					<h2 class="page-header">Create New Course</h2>
+					<h2 class="page-header"><?php echo isset($template['editing']) ? 'Edit' : 'Create New'; ?> Course</h2>
 				</header>
 				<form class="form-horizontal" method="POST" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 					<div class="form-group">
 						<label class="control-label col-sm-4">Course Number:</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" name="courseNumber" placeholder="XX XXXX-XX">
+							<input type="text" class="form-control" name="courseNumber" placeholder="XX XXXX-XX" required <?php if (isset($template['editing'])) echo "value=\"{$template['course']['course_number']}\""; ?>>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-4">Course Title:</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" name="courseTitle">
+							<input type="text" class="form-control" name="courseTitle" required <?php if (isset($template['editing'])) echo "value=\"{$template['course']['course_title']}\""; ?>>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-4">Course Term:</label>
 						<div class="col-sm-7">
-							<select class="form-control" name="courseTerm">
+							<select class="form-control" name="courseTerm" >
 								<?php foreach ($template['term'] as $t) { ?>
-								<option value="<?php echo $t['term_id']; ?>"><?php echo $t['term_name']; ?></option>
+								<option value="<?php echo $t['term_id']; ?>" <?php if (isset($template['editing']) && $t['term_id'] == $template['course']['term_id']) echo 'selected'; ?>><?php echo $t['term_name']; ?></option>
 								<?php } ?>
 							</select>
 						</div>
@@ -46,14 +74,36 @@
 						<div class="col-sm-7">
 							<select class="form-control" name="courseYear">
 								<?php foreach ($template['year'] as $y) { ?>
-								<option value="<?php echo $y; ?>"><?php echo $y; ?></option>
+								<option value="<?php echo $y; ?>" <?php if (isset($template['editing']) && $y == $template['course']['course_year']) echo 'selected'; ?>><?php echo $y; ?></option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-5">
+							<label for="notEnrolled">Not Enrolled</label>
+							<select size="15" id="notEnrolled" class="form-control" multiple>
+								<?php foreach ($template['student'] as $s) { ?>
+								<option value="<?php echo $s["user_id"]; ?>"><?php echo "{$s['user_name_last']}, {$s['user_name_first']} {$s['user_name_middle']}"; ?></option>
+								<?php } ?>
+							</select>
+						</div>
+						<div class="col-sm-2">
+							<input type="button" id="enroll" value="&rtrif;" class="form-control"><br>
+							<input type="button" id="unenroll" value="&ltrif;" class="form-control">
+						</div>
+						<div class="col-sm-5">
+							<label for="enrolled">Enrolled Students</label>
+							<select size="15" id="enrolled" class="form-control" name="courseEnrolled[]" multiple>
+								<?php if (isset($template['editing'])) foreach ($template['enrolled'] as $s) { ?>
+								<option value="<?php echo $s["user_id"]; ?>"><?php echo "{$s['user_name_last']}, {$s['user_name_first']} {$s['user_name_middle']}"; ?></option>
 								<?php } ?>
 							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-4">
-							<input type="submit" class="btn btn-default" value="Create">
+							<input type="submit" id="submit" class="btn btn-default" value="<?php echo isset($template['editing']) ? 'Save Changes' : 'Create Course'; ?>">
 						</div>
 					</div>
 				</form>
