@@ -30,7 +30,9 @@ $request = trim($_SERVER['REQUEST_URI'], '/');
 $argv  = explode('/', $request); // $arg will always contain at least one element
 $argc  = count($argv);
 
-if ($argv[0] == 'assignment') {
+if ($argv[0] == 'account') {
+	require('account.php');
+} else if ($argv[0] == 'assignment') {
 	//require('assignment.php');
 } else if ($argv[0] == 'course') {
 	require('course.php');

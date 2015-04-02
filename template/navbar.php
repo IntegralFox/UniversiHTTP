@@ -18,12 +18,12 @@
 					<a href="#tools" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Instructor tools <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="/course/create">Create Course</a></li>
-						<li><a href="/student/create">Create Student</a></li>
+						<li><a href="/account/create">Create Student</a></li>
 					</ul>
 				</li>
 				<?php } ?>
 			</ul>
-			<p class="navbar-text navbar-right"><?php echo $template['user_name_first'] . ' ' . $template['user_name_last']; ?>&nbsp;<a href="/logout" id="logout">logout</a></p>
+			<p class="navbar-text navbar-right"><?php echo $template['user_name_first'] . ' ' . $template['user_name_last']; ?>&nbsp;&nbsp;&nbsp;<a href="/logout" class="btn-sm btn-default">Logout</a></p>
 		</div><!-- nav-collapse end-->
 	</div><!-- container end -->
 </nav>
