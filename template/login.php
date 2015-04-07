@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<form action="<?php echo htmlentities($_SERVER['REQUEST_URI']); ?>" method="post" class="form-signin">
+			<form action="<?php echo htmlentities($_SERVER['REQUEST_URI']); ?>" method="POST" class="form-signin">
 				<h1 class="page-header">UniversiHTTP</h1>
 				<p class="text-warning"><?php if (isset($template['error'])) echo $template['error']; ?>&nbsp;</p>
 				<div class="form-group">

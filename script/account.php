@@ -29,8 +29,8 @@ if ($_SESSION['faculty'] == 1 && $argc == 2 && $argv[1] == 'create') {
 		$password = substr(md5($username), 0, 10);
 		$passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-		$query = 'INSERT INTO user (user_name_last, user_name_first, user_name_middle, user_login, user_password, user_faculty)
-			VALUES (:last, :first, :middle, :login, :password, :faculty)';
+		$query = 'INSERT INTO user (user_name_last, user_name_first, user_name_middle, user_login, user_password, user_faculty, user_temp_password)
+			VALUES (:last, :first, :middle, :login, :password, :faculty, 1)';
 
 		$insertStmt = $db->prepare($query);
 		$insertStmt->bindParam(':last', $lastName, PDO::PARAM_STR);

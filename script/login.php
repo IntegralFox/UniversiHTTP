@@ -11,7 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	if (!empty($username) && !empty($password)) {
 		$db = pdoConn();
 
-		$query = 'SELECT user_id, user_password, user_name_last, user_name_first, user_faculty from user where user_login = :username';
+		$query = 'SELECT user_id, user_password, user_name_last,
+				user_name_first, user_faculty, user_temp_password
+			FROM user
+			WHERE user_login = :username';
 
 		$return = $db -> prepare($query);
 		$return -> bindParam(':username',$username, PDO::PARAM_STR);
@@ -27,7 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			$_SESSION['firstName'] = $returnArray['user_name_first'];
 			$_SESSION['lastName']  = $returnArray['user_name_last'];
 			$_SESSION['faculty']   = $returnArray['user_faculty'];
+			$_SESSION['needsNewPassword'] = $returnArray['user_temp_password'];
 			header('Location: ' . $_SERVER['REQUEST_URI']);
+			exit();
 		} else {
 			//	echo'Username or Password not found please use the back arrow to go back to the log in screen.';
 			sleep(1);

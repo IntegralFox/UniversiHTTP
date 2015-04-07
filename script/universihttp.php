@@ -11,9 +11,9 @@ require_once('functions.php');
  * quickly. */
 session_start();
 
-if (empty($_SESSION['userId'])) {
-	require('login.php');
-}
+if (empty($_SESSION['userId'])) require('login.php');
+if (isset($_SESSION['needsNewPassword']) && $_SESSION['needsNewPassword']) require('password.php');
+
 session_commit();
 
 
