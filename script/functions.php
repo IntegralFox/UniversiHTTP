@@ -32,3 +32,21 @@ function pdoConn() {
 
 	return $db;
 }
+
+function utcToLocal($d) {
+	$localTimeZone = new DateTimeZone('America/Chicago');
+	$utcTimeZone = new DateTimeZone('UTC');
+
+	$datetime = new DateTime($d, $utcTimeZone);
+	$datetime->setTimezone($localTimeZone);
+	return $datetime->format("Y/m/d H:i:s");
+}
+
+function localToUTC($d) {
+	$localTimeZone = new DateTimeZone('America/Chicago');
+	$utcTimeZone = new DateTimeZone('UTC');
+
+	$datetime = new DateTime($d, $localTimeZone);
+	$datetime->setTimezone($utcTimeZone);
+	return $datetime->format("Y/m/d H:i:s");
+}
