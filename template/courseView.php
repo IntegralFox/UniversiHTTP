@@ -11,6 +11,9 @@
 		<div class="center-section">
 			<section>
 				<header>
+					<?php if ($template['faculty']) { ?>
+					<a href="/course/edit/<?php echo $template['course']['course_id']; ?>" class="pull-right">Edit Course</a>
+					<?php } ?>
 					<h3 class="page-header"><?php echo htmlentities($template['course']['course_number'] . ' ' . $template['course']['course_title']); ?></h3>
 					<h4><?php echo htmlentities($template['course']['user_name_first'] . ' ' . $template['course']['user_name_last']); ?></h4>
 				</header>
@@ -33,11 +36,14 @@
 						<?php foreach ($template['assignment'] as $a) { ?>
 						<tr>
 							<td><a href="/assignment/<?php echo $a['assignment_id']; ?>"><?php echo $a['assignment_name']; ?></a></td>
-							<td><?php echo $a['assignment_due']; ?></td>
+							<td><?php echo utcToLocal($a['assignment_due']); ?></td>
 							<td><?php echo $a['assignment_points']; ?></td>
 						</tr>
 						<?php } ?>
 				</table>
+				<?php if ($template['faculty']) { ?>
+				<a href="/assignment/create/<?php echo $template['course']['course_id']; ?>">+ Assignment</a>
+				<?php } ?>
 			</section>
 		</div>
 		<?php require('footer.php'); ?>

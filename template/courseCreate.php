@@ -102,8 +102,11 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-sm-offset-4">
-							<input type="submit" id="submit" class="btn btn-default pull-right" value="<?php echo isset($template['editing']) ? 'Save Changes' : 'Create Course'; ?>">
+						<div class="col-sm-offset-4 text-right">
+							<?php if (isset($template['editing'])) { ?>
+							<input type="submit" name="delete" class="btn btn-danger" value="Delete Course">
+							<?php } ?>
+							<input type="submit" id="submit" class="btn btn-success" value="<?php echo isset($template['editing']) ? 'Save Changes' : 'Create Course'; ?>">
 						</div>
 					</div>
 				</form>

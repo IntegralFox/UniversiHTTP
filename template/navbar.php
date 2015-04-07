@@ -17,8 +17,8 @@
 				<li class="dropdown">
 					<a href="#tools" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Instructor tools <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="/course/create">Create Course</a></li>
-						<li><a href="/account/create">Create Student</a></li>
+						<li><a href="/course/create">Create New Course</a></li>
+						<li><a href="/account/create">Create New Account</a></li>
 					</ul>
 				</li>
 				<?php } ?>

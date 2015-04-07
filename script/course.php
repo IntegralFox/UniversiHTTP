@@ -3,6 +3,21 @@
 /* Handle course-listing homepage, course pages, and course creation */
 if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if (isset($_POST['delete'])) {
+			$db = pdoConn();
+
+			$query = 'DELETE FROM course
+				WHERE course_id = :course';
+
+			$courseStmt = $db->prepare($query);
+			$courseStmt->bindParam(':course', $argv[2], PDO::PARAM_INT);
+			$courseStmt->execute();
+			$courseStmt = null;
+
+			$db = null;
+
+			header('Location: /');
+		} else {
 			$db = pdoConn();
 
 			$query = 'UPDATE course
@@ -67,7 +82,8 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 
 			$db = null;
 
-			header('Location: /');
+			header('Location: /course/' . $argv[2]);
+		}
 	} else {
 		$db = pdoConn();
 
@@ -161,7 +177,7 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 
 			$db = null;
 
-			header('Location: /');
+			header('Location: /course/' . $courseId);
 		}
 	} else {
 		$db = pdoConn();
