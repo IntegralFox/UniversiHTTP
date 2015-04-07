@@ -144,9 +144,11 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 	$template['assignment'] = $assignmentStmt->fetch(PDO::FETCH_ASSOC);
 	$assignmentStmt = null;
 
-	$db = null;
-
-	require('../template/assignmentView.php');
+	if ($_SESSION['faculty']) {
+		require('../template/assignmentViewFaculty.php');
+	} else {
+		require('../template/assignmentViewStudent.php');
+	}
 } else {
 	// No argument to look up a assignment. Display the homepage.
 	header('Location: /');

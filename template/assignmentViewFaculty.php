@@ -11,14 +11,11 @@
 		<div class="center-section">
 			<section>
 				<header>
-					<?php if ($template['faculty']) { ?>
 					<a href="/assignment/edit/<?php echo $template['assignment']['assignment_id']; ?>" class="pull-right">Edit Assignment</a>
-					<?php } ?>
 					<h3 class="page-header"><?php echo htmlentities($template['assignment']['assignment_name']); ?></h3>
 				</header>
 			</section>
 			<section>
-				<?php if ($template['faculty']) { ?>
 				<h4>Submissions</h4>
 				<table class="table table-condensed" summary="Submissions">
 					<thead>
@@ -39,9 +36,6 @@
 						</tr>
 						<?php //} ?>
 				</table>
-				<?php } else { ?>
-				<p>Upload and file management here</p>
-				<?php } ?>
 			</section>
 			<section>
 				<h4>Assignment Information</h4>
