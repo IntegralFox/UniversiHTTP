@@ -36,6 +36,8 @@ if ($argv[0] == 'account') {
 	require('assignment.php');
 } else if ($argv[0] == 'course') {
 	require('course.php');
+} else if ($argv[0] == 'file') {
+	require('file.php');
 } else if ($argv[0] == 'logout') {
 	require('logout.php');
 } else if ($argv[0] == 'report') {
