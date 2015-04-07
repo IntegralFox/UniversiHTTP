@@ -42,6 +42,8 @@
 				<dl>
 					<dt>Due Date</dt>
 					<dd><?php echo utcToLocal($template['assignment']['assignment_due']); ?></dd>
+					<dt>Points Worth</dt>
+					<dd><?php echo $template['assignment']['assignment_points']; ?></dd>
 					<dt>Description</dt>
 					<dd><pre><?php echo nl2br(htmlentities($template['assignment']['assignment_description']), false); ?></pre></dd>
 				</dl>
