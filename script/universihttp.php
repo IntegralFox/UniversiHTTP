@@ -38,6 +38,8 @@ if ($argv[0] == 'account') {
 	require('course.php');
 } else if ($argv[0] == 'file') {
 	require('file.php');
+} else if ($argv[0] == 'folder') {
+	require('folder.php');
 } else if ($argv[0] == 'logout') {
 	require('logout.php');
 } else if ($argv[0] == 'report') {
