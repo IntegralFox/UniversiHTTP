@@ -8,9 +8,70 @@
 		<link rel="stylesheet" href="/static/css/dropzone.css">
 		<script src="/static/js/dropzone.js"></script>
 		<script>
+			var assignment = "<?php echo $template['assignment']['assignment_id']; ?>";
+			var folder;
+			var file;
+			var fetched;
+
 			$(function() {
+				fetchContents();
 			});
+
+			function fetchContents() {
+				fetched = false;
+				$.get("/folder/json/" + assignment, function(data) {
+					folder = data;
+					if (fetched) $('#files').empty().append(recurseGenerate(null));
+					else fetched = true;
+				});
+				$.get("/file/json/" + assignment, function(data) {
+					file = data;
+					if (fetched) $('#files').empty().append(recurseGenerate(null));
+					else fetched = true;
+				});
+			}
+
+			function recurseGenerate(parentId) {
+				var $ul = $('<ul>');
+				$.each(folder, function(index, node) {
+					if (node.folder_parent_id == parentId) {
+						var $li = $('<li>').attr('id', 'f_' + node.folder_id)
+							.attr('class', 'folder');
+						$li.append(node.folder_name).append(recurseGenerate(node.folder_id));
+						$ul.append($li);
+					}
+				});
+				$.each(file, function(index, node) {
+					if (node.folder_id == parentId)
+						var $li = $('<li>').attr('id', 'f_' + node.file_id).attr('class', 'file')
+							.append(node.file_name).appendTo($ul);
+				});
+				return $ul;
+			}
 		</script>
+		<style>
+			#files li.folder::before {
+				content: '';
+				display: inline-block;
+				height: 1em;
+				width: 2em;
+				background-image: url(/static/img/glyphicons-145-folder-open.png);
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: left center;
+			}
+
+			#files li.file::before {
+				content: '';
+				display: inline-block;
+				height: 1em;
+				width: 2em;
+				background-image: url(/static/img/glyphicons-37-file.png);
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: left center;
+			}
+		</style>
 	</head>
 	<body>
 		<?php require('navbar.php'); ?>
@@ -20,9 +81,7 @@
 					<h3 class="page-header"><?php echo htmlentities($template['assignment']['assignment_name']); ?></h3>
 				</header>
 			</section>
-			<section>
-				<ul id="files">
-				</ul>
+			<section id="files">
 			</section>
 			<section>
 				<form action="/file/upload" id="drop" class="dropzone">
