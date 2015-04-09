@@ -11,7 +11,7 @@
 		</div> <!-- navbar-header end -->
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/">Home</a></li>
+				<li><a href="/">Home</a></li>
 				<li><a href="/report/grades">Grades</a></li>
 				<?php if ($_SESSION['faculty']) { ?>
 				<li class="dropdown">
