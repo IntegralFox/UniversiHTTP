@@ -11,14 +11,96 @@
 			var assignment = "<?php echo $template['assignment']['assignment_id']; ?>";
 			var folder;
 			var file;
-			var fetched;
+			var ctrl = false;
 
 			$(function() {
 				fetchContents();
+
+				// File Selections
+				$('#files').on('click', 'li.file, li.folder', function(e) {
+					if (!ctrl) $('#files li').not(e.target).removeClass('bg-primary').removeClass('selected');
+					$(e.target).toggleClass('bg-primary').toggleClass('selected');
+					setButtonState();
+					updateDropzoneFolder();
+				});
+
+				// Listen for ctrl keypresses
+				$(document.body)
+					.on('keydown', function(e) {
+						if (e.ctrlKey) ctrl = true;
+					})
+					.on('keyup', function(e) {
+						if (!e.ctrlKey) ctrl = false;
+					});
+
+				$('#createFolderButton').click(function() {
+					var folder = '0';
+					if ($('#files .selected.folder').length) folder = $('#files .selected').attr('id').substring(2);
+					var name = prompt('Enter a name');
+
+					if (name) {
+						$.post('/folder/create', {
+							assignment: assignment,
+							parent: folder,
+							name: name
+						}, fetchContents);
+					}
+				});
+
+				$('#deleteButton').click(function() {
+					var count = $('#files .selected').length;
+					if (confirm('Are you sure you want to recursively delete the ' + count + ' selected items?')) {
+						$('#files .selected.file').each(function(index, node) {
+							$.post('/file/delete', {
+								file: node.id.substring(2)
+							}, function() {
+								count -= 1;
+								if (count == 0) fetchContents();
+							});
+						});
+						$('#files .selected.folder').each(function(index, node) {
+							$.post('/folder/delete', {
+								folder: node.id.substring(2)
+							}, function() {
+								count -= 1;
+								if (count == 0) fetchContents();
+							});
+						});
+					}
+				});
+
+				$('#renameButton').click(function() {
+					var name = prompt('Enter a name');
+					if (name) {
+						if ($('#files .selected.folder').length) {
+							$.post('/folder/rename', {
+								folder: $('#files .selected.folder').attr('id').substring(2),
+								name: name
+							}, fetchContents);
+						} else {
+							$.post('/file/rename', {
+								file: $('#files .selected.file').attr('id').substring(2),
+								name: name
+							}, fetchContents);
+						}
+					}
+				});
+
+				Dropzone.options.drop = {
+					init: function() {
+						var dropzone = this;
+						this.on("queuecomplete", function(file) {
+							fetchContents();
+							setTimeout(function() {
+								dropzone.removeAllFiles();
+							}, 1000);
+						});
+					}
+				};
 			});
 
 			function fetchContents() {
-				fetched = false;
+				var fetched = false;
 				$.get("/folder/json/" + assignment, function(data) {
 					folder = data;
 					if (fetched) $('#files').empty().append(recurseGenerate(null));
@@ -31,14 +113,16 @@
 				});
 			}
 
+			// Recursively generate an unordered list of the filesystem
 			function recurseGenerate(parentId) {
 				var $ul = $('<ul>');
 				$.each(folder, function(index, node) {
 					if (node.folder_parent_id == parentId) {
 						var $li = $('<li>').attr('id', 'f_' + node.folder_id)
 							.attr('class', 'folder');
-						$li.append(node.folder_name).append(recurseGenerate(node.folder_id));
+						$li.append(node.folder_name);
 						$ul.append($li);
+						$('<li>').append(recurseGenerate(node.folder_id)).appendTo($ul);
 					}
 				});
 				$.each(file, function(index, node) {
@@ -46,10 +130,39 @@
 						var $li = $('<li>').attr('id', 'f_' + node.file_id).attr('class', 'file')
 							.append(node.file_name).appendTo($ul);
 				});
+
+				if ($ul.children().length == 0) {
+					$ul.append('<li>Folder is Empty</li>');
+				}
+
 				return $ul;
+			}
+
+			// Enable/Disable buttons based on Selections
+			function setButtonState() {
+				var count = $('#files .selected').length;
+				if (count == 1) $('#renameButton').prop('disabled', false);
+				else $('#renameButton').prop('disabled', true);
+				if (count > 0) $('#deleteButton').prop('disabled', false);
+				else $('#deleteButton').prop('disabled', true);
+				if (count == 0 || count == 1 && $('#files .selected.folder').length == 1)
+					$('#createFolderButton').prop('disabled', false);
+				else $('#createFolderButton').prop('disabled', true);
+			}
+
+			// Updates the upload's folder target to the selected item
+			function updateDropzoneFolder() {
+				var folder = '0';
+				if ($('#files .selected.folder').length) folder = $('#files .selected').attr('id').substring(2);
+				$('#parentInput').val(folder);
 			}
 		</script>
 		<style>
+			#files {
+				height: 30em;
+				overflow-y: scroll;
+			}
+
 			#files li.folder::before {
 				content: '';
 				display: inline-block;
@@ -71,6 +184,27 @@
 				background-repeat: no-repeat;
 				background-position: left center;
 			}
+
+			#files li {
+				cursor: pointer;
+			}
+
+			#files li.file:hover, #files li.folder:hover {
+				text-decoration: underline;
+			}
+
+			button img {
+				height: 1em;
+			}
+
+			section {
+				margin-top: 2em;
+				margin-bottom: 2em;
+			}
+
+			#drop {
+				border: 5px dashed gray;
+			}
 		</style>
 	</head>
 	<body>
@@ -84,9 +218,15 @@
 			<section id="files">
 			</section>
 			<section>
+				<button type="button" id="createFolderButton" class="btn btn-default"><img src="/static/img/glyphicons-191-circle-plus.png"> Create Folder</button>
+				<button type="button" id="renameButton" class="btn btn-default" disabled><img src="/static/img/glyphicons-151-edit.png"> Rename</button>
+				<button type="button" id="deleteButton" class="btn btn-default" disabled><img src="/static/img/glyphicons-193-circle-remove.png"> Delete</button>
+			</section>
+			<section>
 				<form action="/file/upload" id="drop" class="dropzone">
-					<input type="hidden" id="assignment" name="assignment" value="<?php echo $template['assignment']['assignment_id']; ?>">
-					<input type="hidden" id="parent" name="parent" value="0">
+					<input type="hidden" id="assignmentInput" name="assignment" value="<?php echo $template['assignment']['assignment_id']; ?>">
+					<input type="hidden" id="parentInput" name="parent" value="0">
+					<div class="dz-message">Drop files here or click to upload to the selected folder</div>
 				</form>
 			</section>
 			<section>

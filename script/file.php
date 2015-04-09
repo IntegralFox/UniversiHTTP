@@ -17,7 +17,7 @@ if ($argc == 2 && $argv[1] == 'upload') {
 		AND assignment_id = :assignment
 		AND user_id = :user';
 
-	if ($parentFolderId) $query .= ' AND folder_id = :file'; // Numeric folder id
+	if ($parentFolderId) $query .= ' AND folder_id = :folder'; // Numeric folder id
 	else $query .= ' AND folder_id IS :folder'; // Null folder id (= NULL is never true)
 
 	$existsStmt = $db->prepare($query);
