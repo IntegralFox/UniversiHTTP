@@ -50,13 +50,13 @@
 					<div class="form-group">
 						<label class="control-label col-sm-4">Course Number:</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" name="courseNumber" placeholder="XX XXXX-XX" required <?php if (isset($template['editing'])) echo "value=\"{$template['course']['course_number']}\""; ?>>
+							<input type="text" class="form-control" name="courseNumber" pattern="^[A-Z]{2,4} [0-9A-Z]{4}-[0-9]{2}$" placeholder="XX XXXX-XX" required <?php if (isset($template['editing'])) echo "value=\"{$template['course']['course_number']}\""; ?>>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-4">Course Title:</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" name="courseTitle" required <?php if (isset($template['editing'])) echo "value=\"{$template['course']['course_title']}\""; ?>>
+							<input type="text" class="form-control" name="courseTitle" pattern="^[a-zA-Z0-9][a-zA-Z0-9\-& ]{0,99}$" required <?php if (isset($template['editing'])) echo "value=\"{$template['course']['course_title']}\""; ?>>
 						</div>
 					</div>
 					<div class="form-group">
