@@ -22,19 +22,19 @@
 					<div class="form-group">
 						<label class="control-label col-sm-4">Last Name:</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" name="lastName" required>
+							<input type="text" class="form-control" name="lastName" pattern="^[a-zA-Z][a-zA-Z ]{0,29}$" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-4">Middle Name:</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" name="middleName">
+							<input type="text" class="form-control" name="middleName" pattern="^[a-zA-Z][a-zA-Z ]{0,29}$">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-4">First Name:</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" name="firstName" required>
+							<input type="text" class="form-control" name="firstName" pattern="^[a-zA-Z][a-zA-Z ]{0,29}$" required>
 						</div>
 					</div>
 					<div class="form-group">
