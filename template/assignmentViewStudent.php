@@ -103,12 +103,18 @@
 				var fetched = false;
 				$.get("/folder/json/" + assignment, function(data) {
 					folder = data;
-					if (fetched) $('#files').empty().append(recurseGenerate(null));
+					if (fetched) {
+						$('#files').empty().append(recurseGenerate(null));
+						setButtonState();
+					}
 					else fetched = true;
 				});
 				$.get("/file/json/" + assignment, function(data) {
 					file = data;
-					if (fetched) $('#files').empty().append(recurseGenerate(null));
+					if (fetched) {
+						$('#files').empty().append(recurseGenerate(null));
+						setButtonState();
+					}
 					else fetched = true;
 				});
 			}
