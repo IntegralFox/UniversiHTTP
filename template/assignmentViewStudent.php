@@ -86,6 +86,15 @@
 					}
 				});
 
+				$('#serveButton').click(function() {
+					var location = '/serve/' + assignment + '/';
+					$selected = $('#files .selected');
+					if ($selected.length) {
+						location += recurseFilePath($selected);
+					}
+					open(location, '_blank');
+				});
+
 				Dropzone.options.drop = {
 					init: function() {
 						var dropzone = this;
@@ -147,13 +156,26 @@
 			// Enable/Disable buttons based on Selections
 			function setButtonState() {
 				var count = $('#files .selected').length;
-				if (count == 1) $('#renameButton').prop('disabled', false);
-				else $('#renameButton').prop('disabled', true);
-				if (count > 0) $('#deleteButton').prop('disabled', false);
-				else $('#deleteButton').prop('disabled', true);
-				if (count == 0 || count == 1 && $('#files .selected.folder').length == 1)
+				if (count == 1) {
+					$('#renameButton').prop('disabled', false);
+				} else {
+					$('#renameButton').prop('disabled', true);
+				}
+				if (count > 0) {
+					$('#deleteButton').prop('disabled', false);
+				} else {
+					$('#deleteButton').prop('disabled', true);
+				}
+				if (count < 2) {
+					$('#serveButton').prop('disabled', false);
+				} else {
+					$('#serveButton').prop('disabled', true);
+				}
+				if (count < 2 && $('#files .selected.folder').length == 1) {
 					$('#createFolderButton').prop('disabled', false);
-				else $('#createFolderButton').prop('disabled', true);
+				} else {
+					$('#createFolderButton').prop('disabled', true);
+				}
 			}
 
 			// Updates the upload's folder target to the selected item
@@ -161,6 +183,14 @@
 				var folder = '0';
 				if ($('#files .selected.folder').length) folder = $('#files .selected').attr('id').substring(2);
 				$('#parentInput').val(folder);
+			}
+
+			function recurseFilePath($selected) {
+				var path = $selected.text();
+				if ($selected.hasClass('folder')) path += '/';
+				if ($selected.parent().parent().is('li'))
+					path = recurseFilePath($selected.parent().parent().prev()) + path;
+				return path;
 			}
 		</script>
 		<style>
@@ -224,6 +254,7 @@
 			<section id="files">
 			</section>
 			<section>
+				<button type="button" id="serveButton" class="btn btn-default pull-right"><img src="/static/img/glyphicons-194-circle-ok.png"> Serve</button>
 				<button type="button" id="createFolderButton" class="btn btn-default"><img src="/static/img/glyphicons-191-circle-plus.png"> Create Folder</button>
 				<button type="button" id="renameButton" class="btn btn-default" disabled><img src="/static/img/glyphicons-151-edit.png"> Rename</button>
 				<button type="button" id="deleteButton" class="btn btn-default" disabled><img src="/static/img/glyphicons-193-circle-remove.png"> Delete</button>
