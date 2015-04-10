@@ -7,13 +7,13 @@ if ($_SESSION['faculty']) {
 	if ($argc < 3) h400();
 	// A request for the root of the assignment without the trailing
 	// slash will break any relative urls
-	if ($argc == 3 && substr($_SERVER['REQUEST_URI'], -1) != '/') h400();
+	if ($argc == 3 && substr($_SERVER['REQUEST_URI'], -1) != '/') hAddSlash();
 	$assignmentId = $argv[1];
 	$studentId = $argv[2];
 	$index = 3;
 } else {
 	if ($argc < 2) h400();
-	if ($argc == 2 && substr($_SERVER['REQUEST_URI'], -1) != '/') h400();
+	if ($argc == 2 && substr($_SERVER['REQUEST_URI'], -1) != '/') hAddSlash();
 	$assignmentId = $argv[1];
 	$studentId = $_SESSION['userId'];
 	$index = 2;
@@ -72,6 +72,11 @@ if ($argc == 2) {
 		if ($f['folder_parent_id'] == $folderId && $f['folder_name'] == $argv[$index]) {
 			$folderId = $f['folder_id'];
 			$fileName = 'index.html';
+			if (substr($_SERVER['REQUEST_URI'], -1) != '/') {
+				// The request is for a folder but does not end in a /
+				// Any relative urls will fail so redirect with a trailing /
+				hAddSlash();
+			}
 		}
 	}
 }
@@ -109,6 +114,11 @@ function h404() {
 function h400() {
 	http_response_code(400);
 	exit('UniversiHTTP - Malformed Request To Serve File');
+}
+
+function hAddSlash() {
+	header('Location: '. $_SERVER['REQUEST_URI'] . '/');
+	exit();
 }
 
 ?>
