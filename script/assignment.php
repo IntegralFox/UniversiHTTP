@@ -234,7 +234,10 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 	$assignmentStmt = null;
 
 	if ($_SESSION['faculty']) {
-		$query = 'SELECT user_id, user_name_last, user_name_first, user_name_middle, COUNT(file_id) AS file_count, MAX(file_modified) AS file_modified, grade_points
+		$query = 'SELECT user_id, user_name_last, user_name_first, user_name_middle,
+				COUNT(file_id) AS file_count, MAX(file_modified) AS file_modified,
+				TIMESTAMPDIFF(HOUR, assignment_due, file_modified) AS file_hours,
+				file_modified > assignment_due AS file_overdue, grade_points
 			FROM user
 			INNER JOIN course_user_bridge USING (user_id)
 			INNER JOIN assignment USING (course_id)
