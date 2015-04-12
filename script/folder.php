@@ -77,8 +77,31 @@ if ($argc == 2 && $argv[1] == 'create') {
 	$folderStmt = null;
 
 	$db = null;
-} else if ($argc == 3 && $argv[1] == 'json') {
-	$assignmentId = $argv[2];
+} else if ($_SESSION['faculty'] && $argc == 6 && $argv[1] == 'json' && $argv[2] == 'assignment' && $argv[4] == 'user') {
+	$assignmentId = $argv[3];
+	$userId = $argv[5];
+
+	$db = pdoConn();
+
+	$query = 'SELECT folder_id, folder_name, folder_parent_id
+		FROM folder
+		WHERE user_id = :user
+		AND assignment_id = :assignment
+		ORDER BY folder_name';
+
+	$folderStmt = $db->prepare($query);
+	$folderStmt->bindParam(':user', $userId, PDO::PARAM_INT);
+	$folderStmt->bindParam(':assignment', $assignmentId, PDO::PARAM_INT);
+	$folderStmt->execute();
+	$results = $folderStmt->fetchAll(PDO::FETCH_ASSOC);
+	$folderStmt = null;
+
+	$db = null;
+
+	header('Content-Type: application/json');
+	echo json_encode($results);
+} else if ($argc == 4 && $argv[1] == 'json' && $argv[2] == 'assignment') {
+	$assignmentId = $argv[3];
 
 	$db = pdoConn();
 

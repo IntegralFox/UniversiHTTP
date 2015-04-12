@@ -1,6 +1,7 @@
 <?php
 
 /* Handle assignment creation, editing, and viewing */
+
 if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (isset($_POST['delete'])) {
@@ -130,7 +131,37 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 
 		require('../template/assignmentCreate.php');
 	}
+} else if ($_SESSION['faculty'] == 1 && $argc == 4 && $argv[2] == 'user') {
+	$assignmentId = $argv[1];
+	$userId = $argv[3];
+
+	$db = pdoConn();
+
+	$query = 'SELECT assignment_id, assignment_name, assignment_due, assignment_points
+		FROM assignment
+		WHERE assignment_id = :assignment';
+
+	$assignmentStmt = $db->prepare($query);
+	$assignmentStmt->bindParam(':assignment', $assignmentId, PDO::PARAM_INT);
+	$assignmentStmt->execute();
+	$template['assignment'] = $assignmentStmt->fetch(PDO::FETCH_ASSOC);
+	$assignmentStmt = null;
+
+	$query = 'SELECT user_id, user_name_last, user_name_first, user_name_middle
+		FROM user
+		WHERE user_id = :user';
+
+	$userStmt = $db->prepare($query);
+	$userStmt->bindParam(':user', $userId, PDO::PARAM_INT);
+	$userStmt->execute();
+	$template['user'] = $userStmt->fetch(PDO::FETCH_ASSOC);
+	$userStmt = null;
+
+	$db = null;
+
+	require('../template/assignmentDetailViewFaculty.php');
 } else if ($argc == 2) {
+	$assignmentId = $argv[1];
 	$db = pdoConn();
 
 	$query = 'SELECT assignment_id, assignment_name, assignment_description,
@@ -139,10 +170,29 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 		WHERE assignment_id = :assignment';
 
 	$assignmentStmt = $db->prepare($query);
-	$assignmentStmt->bindParam(':assignment', $argv[1], PDO::PARAM_INT);
+	$assignmentStmt->bindParam(':assignment', $assignmentId, PDO::PARAM_INT);
 	$assignmentStmt->execute();
 	$template['assignment'] = $assignmentStmt->fetch(PDO::FETCH_ASSOC);
 	$assignmentStmt = null;
+
+	if ($_SESSION['faculty']) {
+		$query = 'SELECT user_id, user_name_last, user_name_first, user_name_middle, COUNT(file_id) AS file_count, MAX(file_modified) AS file_modified
+			FROM user
+			INNER JOIN course_user_bridge USING (user_id)
+			INNER JOIN assignment USING (course_id)
+			LEFT JOIN file USING (assignment_id, user_id)
+			WHERE assignment_id = :assignment
+			GROUP BY user_id
+			ORDER BY user_name_last ASC, user_name_first ASC, user_name_middle ASC';
+
+		$submissionStmt = $db->prepare($query);
+		$submissionStmt->bindParam(':assignment', $assignmentId, PDO::PARAM_INT);
+		$submissionStmt->execute();
+		$template['submission'] = $submissionStmt->fetchAll(PDO::FETCH_ASSOC);
+		$submissionStmt = null;
+	}
+
+	$db = null;
 
 	if ($_SESSION['faculty']) {
 		require('../template/assignmentViewFaculty.php');

@@ -110,7 +110,7 @@
 
 			function fetchContents() {
 				var fetched = false;
-				$.get("/folder/json/" + assignment, function(data) {
+				$.get("/folder/json/assignment/" + assignment, function(data) {
 					folder = data;
 					if (fetched) {
 						$('#files').empty().append(recurseGenerate(null));
@@ -118,7 +118,7 @@
 					}
 					else fetched = true;
 				});
-				$.get("/file/json/" + assignment, function(data) {
+				$.get("/file/json/assignment/" + assignment, function(data) {
 					file = data;
 					if (fetched) {
 						$('#files').empty().append(recurseGenerate(null));

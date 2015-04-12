@@ -94,8 +94,31 @@ if ($argc == 2 && $argv[1] == 'upload') {
 	$fileStmt = null;
 
 	$db = null;
-} else if ($argc == 3 && $argv[1] == 'json') {
-	$assignmentId = $argv[2];
+} else if ($_SESSION['faculty'] && $argc == 6 && $argv[1] == 'json' && $argv[2] == 'assignment' && $argv[4] == 'user') {
+	$assignmentId = $argv[3];
+	$userId = $argv[5];
+
+	$db = pdoConn();
+
+	$query = 'SELECT file_id, file_name, folder_id
+		FROM file
+		WHERE user_id = :user
+		AND assignment_id = :assignment
+		ORDER BY file_name';
+
+	$fileStmt = $db->prepare($query);
+	$fileStmt->bindParam(':user', $userId, PDO::PARAM_INT);
+	$fileStmt->bindParam(':assignment', $assignmentId, PDO::PARAM_INT);
+	$fileStmt->execute();
+	$results = $fileStmt->fetchAll(PDO::FETCH_ASSOC);
+	$fileStmt = null;
+
+	$db = null;
+
+	header('Content-Type: application/json');
+	echo json_encode($results);
+} else if ($argc == 4 && $argv[1] == 'json' && $argv[2] == 'assignment') {
+	$assignmentId = $argv[3];
 
 	$db = pdoConn();
 

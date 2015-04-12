@@ -23,18 +23,20 @@
 							<th>Student</th>
 							<th>Last Modified</th>
 							<th>Files</th>
-							<th>Serve</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php //foreach ($template['submission'] as $s) { ?>
+						<?php foreach ($template['submission'] as $s) { ?>
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td><a href="/assignment/<?php echo $template['assignment']['assignment_id']; ?>/user/<?php echo $s['user_id']; ?>">
+								<?php echo $s['user_name_last'] . ', ' . $s['user_name_first'] . (empty($s['user_name_middle']) ? '' : ' ' . substr($s['user_name_middle'], 0, 1)); ?>
+							</a></td>
+							<td><?php echo empty($s['file_modified']) ? 'Never' : utcToLocal($s['file_modified']); ?></td>
+							<td><?php echo $s['file_count']; ?></td>
+							<td><a href="/serve/assignment/<?php echo $template['assignment']['assignment_id']; ?>/user/<?php echo $s['user_id']; ?>">Serve</a></td>
 						</tr>
-						<?php //} ?>
+						<?php } ?>
 				</table>
 			</section>
 			<section>
