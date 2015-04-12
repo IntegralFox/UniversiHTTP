@@ -87,7 +87,7 @@
 				});
 
 				$('#serveButton').click(function() {
-					var location = '/serve/' + assignment + '/';
+					var location = '/serve/assignment/' + assignment + '/';
 					$selected = $('#files .selected');
 					if ($selected.length) {
 						location += recurseFilePath($selected);

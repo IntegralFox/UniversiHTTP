@@ -3,20 +3,20 @@
 /* Handle serving files in the database for assignments */
 
 if ($_SESSION['faculty']) {
-	// Too Few Arguments
-	if ($argc < 3) h400();
+	// Too Few Arguments / Improper arguments
+	if ($argc < 5 || $argv[1] != 'assignment' || $argv[3] != 'user') h400();
 	// A request for the root of the assignment without the trailing
 	// slash will break any relative urls
-	if ($argc == 3 && substr($_SERVER['REQUEST_URI'], -1) != '/') hAddSlash();
-	$assignmentId = $argv[1];
-	$studentId = $argv[2];
-	$index = 3;
+	if ($argc == 5 && substr($_SERVER['REQUEST_URI'], -1) != '/') hAddSlash();
+	$assignmentId = $argv[2];
+	$studentId = $argv[4];
+	$index = 5;
 } else {
-	if ($argc < 2) h400();
-	if ($argc == 2 && substr($_SERVER['REQUEST_URI'], -1) != '/') hAddSlash();
-	$assignmentId = $argv[1];
+	if ($argc < 3 || $argv[1] != 'assignment') h400();
+	if ($argc == 3 && substr($_SERVER['REQUEST_URI'], -1) != '/') hAddSlash();
+	$assignmentId = $argv[2];
 	$studentId = $_SESSION['userId'];
-	$index = 2;
+	$index = 3;
 }
 
 $db = pdoConn();
@@ -51,7 +51,7 @@ $folderId = null;
 $fileId = null;
 $found = false;
 
-if ($argc == 2) {
+if (($_SESSION['faculty'] && $argc == 5) || $argc == 3) {
 	$fileName = 'index.html';
 } else {
 	while ($index < $argc - 1) {
