@@ -5,6 +5,11 @@
 			$template['title'] = $template['assignment']['assignment_name'] . ' - UniversiHTTP';
 			require('head.php');
 		?>
+		<style>
+			td>img {
+				height: 1em;
+			}
+		</style>
 	</head>
 	<body>
 		<?php require('navbar.php'); ?>
@@ -22,8 +27,8 @@
 						<tr>
 							<th>Student</th>
 							<th>Last Modified</th>
-							<th>Files</th>
-							<th></th>
+							<th class="text-right">Files</th>
+							<th class="text-center">Graded</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -33,8 +38,8 @@
 								<?php echo $s['user_name_last'] . ', ' . $s['user_name_first'] . (empty($s['user_name_middle']) ? '' : ' ' . substr($s['user_name_middle'], 0, 1)); ?>
 							</a></td>
 							<td><?php echo empty($s['file_modified']) ? 'Never' : utcToLocal($s['file_modified']); ?></td>
-							<td><?php echo $s['file_count']; ?></td>
-							<td><a href="/serve/assignment/<?php echo $template['assignment']['assignment_id']; ?>/user/<?php echo $s['user_id']; ?>">Serve</a></td>
+							<td class="text-right"><?php echo $s['file_count']; ?></td>
+							<td class="text-center"><img src="/static/img/<?php echo is_null($s['grade_points']) ? 'glyphicons-208-remove-2.png' : 'glyphicons-207-ok-2.png'; ?>"></td>
 						</tr>
 						<?php } ?>
 				</table>

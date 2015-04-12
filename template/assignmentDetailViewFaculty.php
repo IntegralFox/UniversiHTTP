@@ -28,6 +28,24 @@
 					}
 					open(location, '_blank');
 				});
+
+				$('#gradeForm').submit(function(e) {
+					e.preventDefault();
+					if ($('#gradeInput').prop('disabled') == true) {
+						$('#gradeInput, #commentTextarea').prop('disabled', false);
+						$('#gradeButton').val('Grade');
+					} else {
+						$('#gradeInput, #commentTextarea, #gradeButton').prop('disabled', true);
+						$.post('/assignment/grade', {
+							assignment: assignment,
+							user: user,
+							grade: $('#gradeInput').val(),
+							comment: $('#commentTextarea').val()
+						}, function() {
+							$('#gradeButton').val('Edit').prop('disabled', false);
+						});
+					}
+				});
 			});
 
 			function fetchContents() {
@@ -126,8 +144,13 @@
 				margin-bottom: 2em;
 			}
 
-			#gradeInput {
-				width: 5em;
+			#gradeInputDiv {
+				width: 10em;
+			}
+
+			#commentTextarea {
+				min-height: 10em;
+				resize: vertical;
 			}
 		</style>
 	</head>
@@ -137,13 +160,27 @@
 			<section>
 				<header>
 					<h3 class="page-header"><?php echo htmlentities($template['assignment']['assignment_name']); ?></h3>
-					<h4><?php echo htmlentities($template['user']['user_name_last'] . ', ' . $template['user_name_first'] . (empty($template['user']['user_name_middle']) ? '' : ' ' . substr($template['user']['user_name_middle'], 0, 1))); ?></h4>
+					<h4><?php echo htmlentities($template['user']['user_name_last'] . ', ' . $template['user']['user_name_first'] . (empty($template['user']['user_name_middle']) ? '' : ' ' . substr($template['user']['user_name_middle'], 0, 1))); ?></h4>
 				</header>
 			</section>
 			<section id="files">
 			</section>
 			<section>
-				<button type="button" id="serveButton" class="btn btn-default pull-right"><img src="/static/img/glyphicons-194-circle-ok.png"> Serve</button>
+				<button type="button" id="serveButton" class="btn btn-default pull-right"><img src="/static/img/glyphicons-390-new-window-alt.png"> Serve</button>
+				<form id="gradeForm">
+				<div class="form-group">
+					<div id="gradeInputDiv" class="input-group">
+						<input type="number" min="0" step="1" id="gradeInput" class="form-control" placeholder="Grade" aria-describedby="basic-addon2" value="<?php echo $template['grade']['grade_points']; ?>" <?php if (!is_null($template['grade']['grade_points'])) echo 'disabled'; ?> required>
+						<span class="input-group-addon" id="basic-addon2">/ <?php echo $template['assignment']['assignment_points']; ?></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<textarea id="commentTextarea" class="form-control" placeholder="Enter feedback" <?php if (!is_null($template['grade']['grade_points'])) echo 'disabled'; ?>><?php echo htmlentities($template['grade']['grade_comment']); ?></textarea><br>
+				</div>
+				<div class="form-group">
+					<input type="submit" id="gradeButton" class="btn btn-default" value="<?php echo is_null($template['grade']['grade_points']) ? 'Grade' : 'Edit'; ?>">
+				</div>
+				</form>
 			</section>
 		</div>
 		<?php require('footer.php'); ?>

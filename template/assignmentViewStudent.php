@@ -254,7 +254,7 @@
 			<section id="files">
 			</section>
 			<section>
-				<button type="button" id="serveButton" class="btn btn-default pull-right"><img src="/static/img/glyphicons-194-circle-ok.png"> Serve</button>
+				<button type="button" id="serveButton" class="btn btn-default pull-right"><img src="/static/img/glyphicons-390-new-window-alt.png"> Serve</button>
 				<button type="button" id="createFolderButton" class="btn btn-default"><img src="/static/img/glyphicons-191-circle-plus.png"> Create Folder</button>
 				<button type="button" id="renameButton" class="btn btn-default" disabled><img src="/static/img/glyphicons-151-edit.png"> Rename</button>
 				<button type="button" id="deleteButton" class="btn btn-default" disabled><img src="/static/img/glyphicons-193-circle-remove.png"> Delete</button>
@@ -266,6 +266,17 @@
 					<div class="dz-message">Drop files here or click to upload to the selected folder</div>
 				</form>
 			</section>
+			<?php if (!is_null($template['grade']['grade_points'])) { ?>
+			<section>
+				<h4>Grade Information</h4>
+				<dl>
+					<dt>Points</dt>
+					<dd><?php echo $template['grade']['grade_points']; ?> / <?php echo $template['assignment']['assignment_points']; ?></dd>
+					<dt>Feedback</dt>
+					<dd><pre><?php echo nl2br(htmlentities($template['grade']['grade_comment']), false); ?></pre></dd>
+				</dl>
+			</section>
+			<?php } ?>
 			<section>
 				<h4>Assignment Information</h4>
 				<dl>

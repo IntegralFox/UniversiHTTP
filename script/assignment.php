@@ -157,9 +157,67 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 	$template['user'] = $userStmt->fetch(PDO::FETCH_ASSOC);
 	$userStmt = null;
 
+	$query = 'SELECT grade_points, grade_comment
+		FROM grade
+		WHERE assignment_id = :assignment
+		AND user_id = :user';
+
+	$gradeStmt = $db->prepare($query);
+	$gradeStmt->bindParam(':assignment', $assignmentId, PDO::PARAM_INT);
+	$gradeStmt->bindParam(':user', $userId, PDO::PARAM_INT);
+	$gradeStmt->execute();
+	$template['grade'] = $gradeStmt->fetch(PDO::FETCH_ASSOC);
+	$gradeStmt = null;
+
 	$db = null;
 
 	require('../template/assignmentDetailViewFaculty.php');
+} else if ($_SESSION['faculty'] == 1 && $argc == 2 && $argv[1] == 'grade') {
+	$assignmentId = $_POST['assignment'];
+	$userId = $_POST['user'];
+	$grade = $_POST['grade'];
+	$comment = $_POST['comment'];
+
+	$db = pdoConn();
+
+	$query = 'SELECT count(grade_points)
+		FROM grade
+		WHERE assignment_id = :assignment
+		AND user_id = :user';
+
+	$gradedStmt = $db->prepare($query);
+	$gradedStmt->bindParam(':assignment', $assignmentId, PDO::PARAM_INT);
+	$gradedStmt->bindParam(':user', $userId, PDO::PARAM_INT);
+	$gradedStmt->execute();
+	$graded = $gradedStmt->fetchColumn();
+	$gradedStmt = null;
+
+	if ($graded) {
+		$query = 'UPDATE grade
+			SET grade_points = :grade,
+				grade_comment = :comment
+			WHERE assignment_id = :assignment
+			AND user_id = :user';
+
+		$updateStmt = $db->prepare($query);
+		$updateStmt->bindParam(':grade', $grade, PDO::PARAM_INT);
+		$updateStmt->bindParam(':comment', $comment, PDO::PARAM_STR);
+		$updateStmt->bindParam(':assignment', $assignmentId, PDO::PARAM_INT);
+		$updateStmt->bindParam(':user', $userId, PDO::PARAM_INT);
+		$updateStmt->execute();
+		$updateStmt = null;
+	} else {
+		$query = 'INSERT INTO grade (assignment_id, user_id, grade_points, grade_comment)
+			VALUES (:assignment, :user, :grade, :comment)';
+
+		$insertStmt = $db->prepare($query);
+		$insertStmt->bindParam(':assignment', $assignmentId, PDO::PARAM_INT);
+		$insertStmt->bindParam(':user', $userId, PDO::PARAM_INT);
+		$insertStmt->bindParam(':grade', $grade, PDO::PARAM_INT);
+		$insertStmt->bindParam(':comment', $comment, PDO::PARAM_STR);
+		$insertStmt->execute();
+		$insertStmt = null;
+	}
 } else if ($argc == 2) {
 	$assignmentId = $argv[1];
 	$db = pdoConn();
@@ -176,11 +234,12 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 	$assignmentStmt = null;
 
 	if ($_SESSION['faculty']) {
-		$query = 'SELECT user_id, user_name_last, user_name_first, user_name_middle, COUNT(file_id) AS file_count, MAX(file_modified) AS file_modified
+		$query = 'SELECT user_id, user_name_last, user_name_first, user_name_middle, COUNT(file_id) AS file_count, MAX(file_modified) AS file_modified, grade_points
 			FROM user
 			INNER JOIN course_user_bridge USING (user_id)
 			INNER JOIN assignment USING (course_id)
 			LEFT JOIN file USING (assignment_id, user_id)
+			LEFT JOIN grade USING (assignment_id, user_id)
 			WHERE assignment_id = :assignment
 			GROUP BY user_id
 			ORDER BY user_name_last ASC, user_name_first ASC, user_name_middle ASC';
@@ -190,6 +249,18 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 		$submissionStmt->execute();
 		$template['submission'] = $submissionStmt->fetchAll(PDO::FETCH_ASSOC);
 		$submissionStmt = null;
+	} else {
+		$query = 'SELECT grade_points, grade_comment
+			FROM grade
+			WHERE assignment_id = :assignment
+			AND user_id = :user';
+
+		$gradeStmt = $db->prepare($query);
+		$gradeStmt->bindParam(':assignment', $assignmentId, PDO::PARAM_INT);
+		$gradeStmt->bindParam(':user', $_SESSION['userId'], PDO::PARAM_INT);
+		$gradeStmt->execute();
+		$template['grade'] = $gradeStmt->fetch(PDO::FETCH_ASSOC);
+		$gradeStmt = null;
 	}
 
 	$db = null;
