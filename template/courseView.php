@@ -36,7 +36,28 @@
 						<?php foreach ($template['assignment'] as $a) { ?>
 						<tr>
 							<td><a href="/assignment/<?php echo $a['assignment_id']; ?>"><?php echo $a['assignment_name']; ?></a></td>
-							<td><?php echo utcToLocal($a['assignment_due']); ?></td>
+							<td>
+								<?php echo utcToLocal($a['assignment_due']); ?>
+								<?php
+								if ($a['assignment_overdue']) {
+									if ($a['assignment_hours_left'] < 24) {
+										echo '(' . (int)($a['assignment_hours_left']) . ' hours left)';
+									} else if ($a['assignment_hours_left'] / 24 < 30) {
+										echo '(' . (int)($a['assignment_hours_left'] / 24) . 'days left)';
+									} else {
+										echo '(' . (int)($a['assignment_hours_left'] / 24 / 30) . 'months left)';
+									}
+								} else {
+									if ($a['assignment_hours_left'] * -1 < 24) {
+										echo '(' . (int)($a['assignment_hours_left']) . ' hours ago)';
+									} else if ($a['assignment_hours_left'] * -1 / 24 < 30) {
+										echo '(' . (int)($a['assignment_hours_left'] / 24) . 'days ago)';
+									} else {
+										echo '(' . (int)($a['assignment_hours_left'] * -1 / 24 / 30) . 'months ago)';
+									}
+								}
+								?>
+							</td>
 							<td><?php echo $a['assignment_points']; ?></td>
 						</tr>
 						<?php } ?>

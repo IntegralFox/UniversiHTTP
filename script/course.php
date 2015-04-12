@@ -228,7 +228,9 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 	$template['course'] = $courseStmt->fetch(PDO::FETCH_ASSOC);
 	$courseStmt = null;
 
-	$query = 'SELECT assignment_id, assignment_name, assignment_due, assignment_points
+	$query = 'SELECT assignment_id, assignment_name, assignment_due,
+		assignment_points, TIMESTAMPDIFF(HOUR, NOW(), assignment_due) AS assignment_hours_left,
+		NOW() < assignment_due AS assignment_overdue
 		FROM assignment
 		WHERE course_id = :course
 		ORDER BY assignment_due DESC';
