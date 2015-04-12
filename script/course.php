@@ -230,11 +230,11 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 
 	$query = 'SELECT assignment_id, assignment_name, assignment_due, assignment_points
 		FROM assignment
-		WHERE course_id = :courseId
+		WHERE course_id = :course
 		ORDER BY assignment_due DESC';
 
 	$assignStmt = $db->prepare($query);
-	$assignStmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+	$assignStmt->bindParam(':course', $courseId, PDO::PARAM_INT);
 	$assignStmt->execute();
 	$template['assignment'] = $assignStmt->fetchAll(PDO::FETCH_ASSOC);
 	$assignStmt = null;
@@ -251,8 +251,8 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 	if ($_SESSION['faculty']) {
 		$query .= 'WHERE user_id = :userId';
 	} else {
-		$query .= 'INNER JOIN course_user_bridge AS c USING (course_id)
-			WHERE c.user_id = :userId';
+		$query .= 'INNER JOIN course_user_bridge AS b USING (course_id)
+			WHERE b.user_id = :userId';
 	}
 
 	$courseStmt = $db->prepare($query);
