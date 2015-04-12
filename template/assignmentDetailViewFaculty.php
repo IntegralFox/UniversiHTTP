@@ -175,7 +175,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<textarea id="commentTextarea" class="form-control" placeholder="Enter feedback" <?php if (!is_null($template['grade']['grade_points'])) echo 'disabled'; ?>><?php echo htmlentities($template['grade']['grade_comment']); ?></textarea><br>
+					<textarea id="commentTextarea" class="form-control" placeholder="Enter feedback" pattern="^[a-zA-Z0-9 .,?/\\|;:’”!@#$%&amp;*(){}[\]<>]{0,1000}$" title="Can contain a-zA-Z0-9.,?/\|;:’”!@#$%&amp;*(){}[]<> up to 1000 characters." <?php if (!is_null($template['grade']['grade_points'])) echo 'disabled'; ?>><?php echo htmlentities($template['grade']['grade_comment']); ?></textarea><br>
 				</div>
 				<div class="form-group">
 					<input type="submit" id="gradeButton" class="btn btn-default" value="<?php echo is_null($template['grade']['grade_points']) ? 'Grade' : 'Edit'; ?>">

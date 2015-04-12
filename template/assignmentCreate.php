@@ -26,13 +26,13 @@
 					<div class="form-group">
 						<label class="control-label col-sm-4">Assignment Name:</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" name="assignmentName" pattern="^[a-zA-Z0-9][a-zA-Z0-9&#\-!\(\)\[\]\{\}\.]{0,99}$" required <?php if (isset($template['editing'])) echo "value=\"{$template['assignment']['assignment_name']}\""; ?>>
+							<input type="text" class="form-control" name="assignmentName" pattern="^[a-zA-Z0-9&amp;#\-!()[\]{}. ]{1,99}$" title="Can contain a-zA-Z0-9&amp;#-!()[]{}. up to 100 characters." required <?php if (isset($template['editing'])) echo "value=\"{$template['assignment']['assignment_name']}\""; ?>>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-4">Assignment Description:</label>
 						<div class="col-sm-7">
-							<textarea class="form-control" name="assignmentDescription" pattern="^[a-zA-Z0-9 \.,\?\/\\\|;:’”!@#\$%&\*\(\)\{\}\[\]]{0,1000}$" rows="6" required><?php if (isset($template['editing'])) echo htmlentities($template['assignment']['assignment_description']); ?></textarea>
+							<textarea class="form-control" name="assignmentDescription" pattern="^[a-zA-Z0-9 .,?/\\|;:’”!@#$%&amp;*(){}[\]<>]{0,1000}$" title="Can contain a-zA-Z0-9 .,?/\|;:’”!@#$%&amp;*(){}[]<> up to 1000 characters." rows="6" required><?php if (isset($template['editing'])) echo htmlentities($template['assignment']['assignment_description']); ?></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -44,7 +44,7 @@
 					<div class="form-group">
 						<label class="control-label col-sm-4">Assignment Points:</label>
 						<div class="col-sm-7">
-							<input type="number" class="form-control" name="assignmentPoints" min="0" step="1" pattern="^([0-9]{1,4}|10{4})$" required <?php if (isset($template['editing'])) echo "value=\"{$template['assignment']['assignment_points']}\""; ?>>
+							<input type="number" class="form-control" name="assignmentPoints" min="0" step="1" required <?php if (isset($template['editing'])) echo "value=\"{$template['assignment']['assignment_points']}\""; ?>>
 						</div>
 					</div>
 					<div class="form-group">
