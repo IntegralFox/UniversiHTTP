@@ -43,17 +43,17 @@
 									if ($a['assignment_hours_left'] < 24) {
 										echo '(' . (int)($a['assignment_hours_left']) . ' hours left)';
 									} else if ($a['assignment_hours_left'] / 24 < 30) {
-										echo '(' . (int)($a['assignment_hours_left'] / 24) . 'days left)';
+										echo '(' . (int)($a['assignment_hours_left'] / 24) . ' days left)';
 									} else {
-										echo '(' . (int)($a['assignment_hours_left'] / 24 / 30) . 'months left)';
+										echo '(' . (int)($a['assignment_hours_left'] / 24 / 30) . ' months left)';
 									}
 								} else {
 									if ($a['assignment_hours_left'] * -1 < 24) {
-										echo '(' . (int)($a['assignment_hours_left']) . ' hours ago)';
+										echo '(' . (int)($a['assignment_hours_left'] * -1) . ' hours ago)';
 									} else if ($a['assignment_hours_left'] * -1 / 24 < 30) {
-										echo '(' . (int)($a['assignment_hours_left'] / 24) . 'days ago)';
+										echo '(' . (int)($a['assignment_hours_left'] * -1 / 24) . ' days ago)';
 									} else {
-										echo '(' . (int)($a['assignment_hours_left'] * -1 / 24 / 30) . 'months ago)';
+										echo '(' . (int)($a['assignment_hours_left'] * -1 / 24 / 30) . ' months ago)';
 									}
 								}
 								?>
