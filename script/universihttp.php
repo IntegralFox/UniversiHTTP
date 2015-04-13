@@ -43,9 +43,9 @@ if ($argv[0] == 'account') {
 } else if ($argv[0] == 'logout') {
 	require('logout.php');
 } else if ($argv[0] == 'report') {
-	//require('report.php');
+	require('report.php');
 } else if ($argv[0] == 'serve') {
-	require('serve.php');
+	//require('serve.php');
 } else {
 	require('course.php');
 }
