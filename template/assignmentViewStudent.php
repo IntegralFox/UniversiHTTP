@@ -71,6 +71,10 @@
 
 				$('#renameButton').click(function() {
 					var name = prompt('Enter a name');
+					while (!name.match(/^[a-zA-Z0-9 ,._\-+=()[\]{}~]{1,255}$/) && name !== null) {
+						alert('File names can only contain letters, numbers, spaces, and the following characters: ,._-+=()[]{}~');
+						name = prompt('Enter a name', name);
+					}
 					if (name) {
 						if ($('#files .selected.folder').length) {
 							$.post('/folder/rename', {
