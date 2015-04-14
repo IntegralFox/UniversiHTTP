@@ -19,6 +19,7 @@
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="/course/create">Create New Course</a></li>
 						<li><a href="/account/create">Create New Account</a></li>
+						<li><a href="/account/edit">Modify Student Account</a></li>
 					</ul>
 				</li>
 				<?php } ?>

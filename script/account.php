@@ -116,6 +116,89 @@ if ($_SESSION['faculty'] == 1 && $argc == 2 && $argv[1] == 'create') {
 	$db = null;
 
 	require('../template/accountResults.php');
+} else if ($_SESSION['faculty'] == 1 && $argc == 2 && $argv[1] == 'edit') {
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if (isset($_POST['delete'])) {
+			$db = pdoConn();
+			$query = 'DELETE FROM user
+				WHERE user_id = :user';
+
+			$deleteStmt = $db->prepare($query);
+			$deleteStmt->bindParam(':user', $userId, PDO::PARAM_INT);
+			foreach ($_POST['courseEnrolled'] as $userId) {
+				$deleteStmt->execute();
+			}
+			$deleteStmt = null;
+
+			$db = null;
+
+			header('Location: /account/edit');
+		} else {
+			$db = pdoConn();
+
+			$query = 'SELECT user_name_last, user_name_first, user_name_middle, user_login
+				FROM user
+				WHERE user_id = :user';
+
+			$userStmt = $db->prepare($query);
+			$userStmt->bindParam(':user', $userId, PDO::PARAM_INT);
+
+			$query = 'UPDATE user
+				SET user_password = :password
+				WHERE user_id = :user';
+
+			$updateStmt = $db->prepare($query);
+			$updateStmt->bindParam(':user', $userId, PDO::PARAM_INT);
+			$updateStmt->bindParam(':password', $passwordHash, PDO::PARAM_STR);
+
+			$template['createdAccounts'] = [];
+
+			foreach ($_POST['courseEnrolled'] as $userId) {
+				$userStmt->execute();
+				$userStmt->bindColumn('user_name_last', $lastName, PDO::PARAM_STR);
+				$userStmt->bindColumn('user_name_first', $firstName, PDO::PARAM_STR);
+				$userStmt->bindColumn('user_name_middle', $middleName, PDO::PARAM_STR);
+				$userStmt->bindColumn('user_login', $username, PDO::PARAM_STR);
+				$userStmt->fetch(PDO::FETCH_BOUND);
+				$userStmt->closeCursor();
+
+				$password = substr(md5($username), 0, 10);
+				$passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+				$updateStmt->execute();
+
+				$template['createdAccounts'][] = [
+					'name'     => "$lastName, $firstName $middleName",
+					'login'    => $username,
+					'password' => $password
+				];
+			}
+
+			$updateStmt = null;
+			$userStmt = null;
+
+			$db = null;
+
+			$template['reset'] = true;
+
+			require('../template/accountResults.php');
+		}
+	} else {
+		$db = pdoConn();
+
+		$query = 'SELECT user_id, user_name_last, user_name_first, user_name_middle
+			FROM user
+			WHERE user_faculty = 0';
+
+		$studentStmt = $db->prepare($query);
+		$studentStmt->execute();
+		$template['student'] = $studentStmt->fetchAll(PDO::FETCH_ASSOC);
+		$studentStmt = null;
+
+		$db = null;
+
+		require('../template/accountList.php');
+	}
 }
 
 ?>

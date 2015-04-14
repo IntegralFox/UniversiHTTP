@@ -10,7 +10,7 @@
 		<?php require('navbar.php'); ?>
 		<div class="center-section theme-showcase" role="main">
 			<div class="page-header">
-					<h1>Accounts Created</h1>
+					<h1>Accounts <?php echo isset($template['reset']) ? 'Reset' : 'Created'; ?></h1>
 			</div>
 			<div>
 				<p class="text-warning">NOTE: Temporary passwords cannot be retrieved once you have navigated away from this page. Please record them to distribute to users.</p>
