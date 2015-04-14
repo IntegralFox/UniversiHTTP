@@ -38,7 +38,7 @@
 					<div class="form-group">
 						<label class="control-label col-sm-4">Assignment Due Date:</label>
 						<div class="col-sm-7">
-							<input type="datetime" class="form-control" name="assignmentDueDate" required <?php if (isset($template['editing'])) echo "value=\"{$template['assignment']['assignment_due']}\""; ?>>
+							<input type="datetime" class="form-control" name="assignmentDueDate" placeholder="YYYY/MM/DD HH:MM:SS" required <?php if (isset($template['editing'])) echo "value=\"{$template['assignment']['assignment_due']}\""; ?>>
 						</div>
 					</div>
 					<div class="form-group">
