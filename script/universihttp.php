@@ -42,6 +42,8 @@ if ($argv[0] == 'account') {
 	require('folder.php');
 } else if ($argv[0] == 'logout') {
 	require('logout.php');
+} else if ($argv[0] == 'password') {
+	require('password.php');
 } else if ($argv[0] == 'report') {
 	require('report.php');
 } else if ($argv[0] == 'serve') {

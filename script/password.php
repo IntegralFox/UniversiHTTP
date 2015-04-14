@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 		$_SESSION['needsNewPassword'] = 0;
 
-		header('Location: ' . $_SERVER['REQUEST_URI']);
+		header('Location: /');
 		exit();
 	} else {
 		$template = ['error' => 'Passwords must match.'];

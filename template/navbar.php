@@ -23,7 +23,19 @@
 				</li>
 				<?php } ?>
 			</ul>
-			<p class="navbar-text navbar-right"><?php echo $template['user_name_first'] . ' ' . $template['user_name_last']; ?>&nbsp;&nbsp;&nbsp;<a href="/logout" class="btn-sm btn-default">Logout</a></p>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#tools" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+						<?php echo $template['user_name_first'] . ' ' . $template['user_name_last']; ?><span class="caret"></span>&nbsp;&nbsp;&nbsp;
+					</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="/password">Change Password</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="/logout">Logout</a>
+				</li>
+			</ul>
 		</div><!-- nav-collapse end-->
 	</div><!-- container end -->
 </nav>
