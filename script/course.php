@@ -24,12 +24,14 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 				SET course_number = :number,
 					course_title = :title,
 					course_year = :year,
+					course_description = :desc,
 					term_id = :term
 				WHERE course_id = :course';
 
 			$courseStmt = $db->prepare($query);
 			$courseStmt->bindParam(':number', $_POST['courseNumber'], PDO::PARAM_STR);
 			$courseStmt->bindParam(':title', $_POST['courseTitle'], PDO::PARAM_STR);
+			$courseStmt->bindParam(':desc', $_POST['courseDescription'], PDO::PARAM_STR);
 			$courseStmt->bindParam(':year', $_POST['courseYear'], PDO::PARAM_INT);
 			$courseStmt->bindParam(':term', $_POST['courseTerm'], PDO::PARAM_INT);
 			$courseStmt->bindParam(':course', $argv[2], PDO::PARAM_INT);
@@ -87,7 +89,7 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 	} else {
 		$db = pdoConn();
 
-		$query = 'SELECT course_number, course_title, course_year, term_id
+		$query = 'SELECT course_number, course_title, course_description, course_year, term_id
 			FROM course
 			WHERE course_id = :course';
 
@@ -150,12 +152,13 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 		) {
 			$db = pdoConn();
 
-			$query = 'INSERT INTO course (course_number, course_title, course_year, term_id, user_id)
-				VALUES (:number, :title, :year, :term, :user)';
+			$query = 'INSERT INTO course (course_number, course_title, course_year, course_description, term_id, user_id)
+				VALUES (:number, :title, :year, :desc, :term, :user)';
 
 			$courseStmt = $db->prepare($query);
 			$courseStmt->bindParam(':number', $_POST['courseNumber'], PDO::PARAM_STR);
 			$courseStmt->bindParam(':title', $_POST['courseTitle'], PDO::PARAM_STR);
+			$courseStmt->bindParam(':desc', $_POST['courseDescription'], PDO::PARAM_STR);
 			$courseStmt->bindParam(':year', $_POST['courseYear'], PDO::PARAM_INT);
 			$courseStmt->bindParam(':term', $_POST['courseTerm'], PDO::PARAM_INT);
 			$courseStmt->bindParam(':user', $_SESSION['userId'], PDO::PARAM_INT);
@@ -217,7 +220,7 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 
 	$db = pdoConn();
 
-	$query = 'SELECT course_id, course_number, course_title, user_name_last, user_name_first
+	$query = 'SELECT course_id, course_number, course_title, course_description, user_name_last, user_name_first
 		FROM course
 		INNER JOIN user USING (user_id)
 		WHERE course_id = :courseId';

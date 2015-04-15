@@ -79,6 +79,12 @@
 							</select>
 						</div>
 					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-4">Course Description:</label>
+						<div class="col-sm-7">
+							<textarea class="form-control" name="courseDescription" pattern="^[a-zA-Z0-9 .,?/\\|;:’”!@#$%&amp;*(){}[\]<>]{0,1000}$" title="Can contain a-zA-Z0-9 .,?/\|;:’”!@#$%&amp;*(){}[]<> up to 1000 characters." rows="6" required><?php if (isset($template['editing'])) echo htmlentities($template['course']['course_description']); ?></textarea>
+						</div>
+					</div>
 					<div class="form-group row">
 						<div class="col-sm-5">
 							<label for="notEnrolled">Not Enrolled</label>

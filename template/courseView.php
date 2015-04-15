@@ -17,11 +17,7 @@
 					<h3 class="page-header"><?php echo htmlentities($template['course']['course_number'] . ' ' . $template['course']['course_title']); ?></h3>
 					<h4><?php echo htmlentities($template['course']['user_name_first'] . ' ' . $template['course']['user_name_last']); ?></h4>
 				</header>
-				<ul>
-					<li><a href="#">Instructor's Demos (Incomplete)</a></li>
-					<li><a href="#">Static Course Files (Incomplete)</a></li>
-					<li><a href="#">Sandbox (Incomplete)</a></li>
-				</ul>
+				<pre><?php echo nl2br(htmlentities($template['course']['course_description']), false); ?></pre>
 			</section>
 			<section>
 				<table class="table table-condensed" summary="Assignments">
