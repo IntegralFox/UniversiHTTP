@@ -175,7 +175,7 @@
 				} else {
 					$('#serveButton').prop('disabled', true);
 				}
-				if (count < 2 && $('#files .selected.folder').length == 1) {
+				if (count < 2) {
 					$('#createFolderButton').prop('disabled', false);
 				} else {
 					$('#createFolderButton').prop('disabled', true);
