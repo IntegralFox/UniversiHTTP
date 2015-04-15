@@ -73,15 +73,27 @@
 					if (node.folder_parent_id == parentId) {
 						var $li = $('<li>').attr('id', 'f_' + node.folder_id)
 							.attr('class', 'folder');
-						$li.append(node.folder_name);
+						$li.text(node.folder_name);
 						$ul.append($li);
 						$('<li>').append(recurseGenerate(node.folder_id)).appendTo($ul);
 					}
 				});
 				$.each(file, function(index, node) {
-					if (node.folder_id == parentId)
+					if (node.folder_id == parentId) {
 						var $li = $('<li>').attr('id', 'f_' + node.file_id).attr('class', 'file')
-							.append(node.file_name).appendTo($ul);
+							.text(node.file_name).appendTo($ul);
+						if (node.file_overdue) {
+							var time = node.file_hours;
+							if (time < 24) {
+								time = time + ' hours late';
+							} else if (time / 24 < 30) {
+								time = parseInt(time / 24) + ' days late';
+							} else {
+								time = parseInt(time / 24 / 30) + ' months late';
+							}
+							$('<span>').addClass('pull-right').text(time).appendTo($li);
+						}
+					}
 				});
 
 				if ($ul.children().length == 0) {

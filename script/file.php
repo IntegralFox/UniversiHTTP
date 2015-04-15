@@ -100,8 +100,11 @@ if ($argc == 2 && $argv[1] == 'upload') {
 
 	$db = pdoConn();
 
-	$query = 'SELECT file_id, file_name, folder_id
+	$query = 'SELECT file_id, file_name, folder_id,
+			(file_modified > assignment_due) AS file_overdue,
+			TIMESTAMPDIFF(HOUR, assignment_due, file_modified) AS file_hours
 		FROM file
+		INNER JOIN assignment USING (assignment_id)
 		WHERE user_id = :user
 		AND assignment_id = :assignment
 		ORDER BY file_name';
@@ -122,8 +125,11 @@ if ($argc == 2 && $argv[1] == 'upload') {
 
 	$db = pdoConn();
 
-	$query = 'SELECT file_id, file_name, folder_id
+	$query = 'SELECT file_id, file_name, folder_id,
+			(file_modified > assignment_due) AS file_overdue,
+			TIMESTAMPDIFF(HOUR, assignment_due, file_modified) AS file_hours
 		FROM file
+		INNER JOIN assignment USING (assignment_id)
 		WHERE user_id = :user
 		AND assignment_id = :assignment
 		ORDER BY file_name';
