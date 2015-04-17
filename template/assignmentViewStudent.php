@@ -119,6 +119,7 @@
 					if (fetched) {
 						$('#files').empty().append(recurseGenerate(null));
 						setButtonState();
+						updateDropzoneFolder();
 					}
 					else fetched = true;
 				});
@@ -127,6 +128,7 @@
 					if (fetched) {
 						$('#files').empty().append(recurseGenerate(null));
 						setButtonState();
+						updateDropzoneFolder();
 					}
 					else fetched = true;
 				});
