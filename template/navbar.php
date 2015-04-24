@@ -7,7 +7,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/">UniversiTTP</a>
+			<a class="navbar-brand" href="/">UniversiHTTP</a>
 		</div> <!-- navbar-header end -->
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
