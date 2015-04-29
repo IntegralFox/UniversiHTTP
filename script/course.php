@@ -112,7 +112,8 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 			FROM user
 			INNER JOIN course_user_bridge USING (user_id)
 			WHERE user_faculty = 0
-			AND course_id = :course';
+			AND course_id = :course
+			ORDER BY user_name_last ASC, user_name_first ASC, user_name_middle ASC';
 
 		$studentStmt = $db->prepare($query);
 		$studentStmt->bindParam(':course', $argv[2], PDO::PARAM_INT);
@@ -123,7 +124,8 @@ if ($_SESSION['faculty'] == 1 && $argc == 3 && $argv[1] == 'edit') {
 		$query = 'SELECT user_id, user_name_last, user_name_first, user_name_middle
 			FROM user
 			WHERE user_faculty = 0
-			AND user_id NOT IN (SELECT user_id FROM course_user_bridge WHERE course_id = :course)';
+			AND user_id NOT IN (SELECT user_id FROM course_user_bridge WHERE course_id = :course)
+			ORDER BY user_name_last ASC, user_name_first ASC, user_name_middle ASC';
 
 		$studentStmt = $db->prepare($query);
 		$studentStmt->bindParam(':course', $argv[2], PDO::PARAM_INT);
