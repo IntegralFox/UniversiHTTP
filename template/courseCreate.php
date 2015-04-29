@@ -31,6 +31,10 @@
 							$('#enrolled option').prop('selected', true);
 					}
 				});
+				$('#delete').click(function(e) {
+					answer = confirm('Are you sure you want to delete this course?\nAll data including assignments, grades, and files will be permanently deleted.');
+					if (!answer) e.preventDefault();
+				});
 			});
 			function sortSelect(selector) {
 				$(selector + ' option').sort(function(a, b) {
@@ -110,7 +114,7 @@
 					<div class="form-group">
 						<div class="col-sm-offset-4 text-right">
 							<?php if (isset($template['editing'])) { ?>
-							<input type="submit" name="delete" class="btn btn-danger" value="Delete Course">
+							<input type="submit" id="delete" name="delete" class="btn btn-danger" value="Delete Course">
 							<?php } ?>
 							<input type="submit" id="submit" class="btn btn-success" value="<?php echo isset($template['editing']) ? 'Save Changes' : 'Create Course'; ?>">
 						</div>

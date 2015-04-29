@@ -34,7 +34,7 @@
 				$('#delete').click(function(e) {
 					answer = confirm('Deleting the selected student accounts will remove them from all enrolled courses and permanently delete any files uploaded by them.\n\nContinue?');
 					if (!answer) e.preventDefault();
-				})
+				});
 			});
 			function sortSelect(selector) {
 				$(selector + ' option').sort(function(a, b) {

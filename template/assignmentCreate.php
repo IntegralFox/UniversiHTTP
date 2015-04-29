@@ -13,6 +13,14 @@
 				resize: vertical;
 			}
 		</style>
+		<script>
+			$(function() {
+				$('#delete').click(function(e) {
+					answer = confirm('Are you sure you want to delete this assignment?\nAll data associated with it including files and grades will be permanently deleted.');
+					if (!answer) e.preventDefault();
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<?php require('navbar.php'); ?>
@@ -50,7 +58,7 @@
 					<div class="form-group">
 						<div class="col-sm-offset-4 text-right">
 							<?php if (isset($template['editing'])) { ?>
-							<input type="submit" name="delete" class="btn btn-danger" value="Delete Assignment">
+							<input type="submit" name="delete" id="delete" class="btn btn-danger" value="Delete Assignment">
 							<?php } ?>
 							<input type="submit" class="btn btn-success" value="<?php echo isset($template['editing']) ? 'Save Changes' : 'Create Assignment'; ?>">
 						</div>
