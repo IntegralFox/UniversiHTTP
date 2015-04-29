@@ -44,9 +44,9 @@
 									if ($s['file_hours'] < 24) {
 										echo '(' . (int)($s['file_hours']) . ' hours overdue)';
 									} else if ($s['file_hours'] / 24 < 30) {
-										echo '(' . (int)($s['file_hours'] / 24) . 'days overdue)';
+										echo '(' . (int)($s['file_hours'] / 24) . ' days overdue)';
 									} else {
-										echo '(' . (int)($s['file_hours'] / 24 / 30) . 'months overdue)';
+										echo '(' . (int)($s['file_hours'] / 24 / 30) . ' months overdue)';
 									}
 								}
 								?>
