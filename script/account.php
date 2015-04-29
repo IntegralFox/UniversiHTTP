@@ -188,7 +188,8 @@ if ($_SESSION['faculty'] == 1 && $argc == 2 && $argv[1] == 'create') {
 
 		$query = 'SELECT user_id, user_name_last, user_name_first, user_name_middle
 			FROM user
-			WHERE user_faculty = 0';
+			WHERE user_faculty = 0
+			ORDER BY user_name_last ASC, user_name_first ASC, user_name_middle ASC';
 
 		$studentStmt = $db->prepare($query);
 		$studentStmt->execute();
