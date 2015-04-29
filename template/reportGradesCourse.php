@@ -37,7 +37,7 @@
 				</table>
 			</section>
 			<section>
-				<h4>Per Assignment</h4>
+				<h4>Per Student</h4>
 				<table class="table table-condensed" summary="Student Statistics">
 					<thead>
 						<tr>
