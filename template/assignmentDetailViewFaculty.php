@@ -82,7 +82,7 @@
 					if (node.folder_id == parentId) {
 						var $li = $('<li>').attr('id', 'f_' + node.file_id).attr('class', 'file')
 							.text(node.file_name).appendTo($ul);
-						if (node.file_overdue) {
+						if (node.file_overdue == '1') {
 							var time = node.file_hours;
 							if (time < 24) {
 								time = time + ' hours late';
@@ -91,7 +91,7 @@
 							} else {
 								time = parseInt(time / 24 / 30) + ' months late';
 							}
-							$('<span>').addClass('pull-right').text(time).appendTo($li);
+							$('<span>').addClass('pull-right overdue').text(time).appendTo($li);
 						}
 					}
 				});
@@ -104,7 +104,9 @@
 			}
 
 			function recurseFilePath($selected) {
+				var $overdueSpan = $selected.find('span.overdue').remove();
 				var path = $selected.text();
+				$selected.append($overdueSpan);
 				if ($selected.hasClass('folder')) path += '/';
 				if ($selected.parent().parent().is('li'))
 					path = recurseFilePath($selected.parent().parent().prev()) + path;
