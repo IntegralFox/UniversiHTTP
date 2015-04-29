@@ -84,9 +84,9 @@ if ($_SESSION['faculty'] == 1 && $argc == 2 && $argv[1] == 'create') {
 		$line = explode(',', $line);
 		if (empty($line[0]) || empty($line[1])) continue;
 
-		$firstName  = trim($line[0]);
-		$middleName = empty($line[2]) ? null : trim($line[2]);
-		$lastName   = trim($line[1]);
+		$lastName   = trim($line[0]);
+		$firstName  = trim($line[1]);
+		$middleName = empty($line[2]) ? null: trim($line[2]);
 
 		$username = $firstName[0];
 		if (!empty($middleName)) $username .= $middleName[0];
